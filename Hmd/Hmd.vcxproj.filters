@@ -18,7 +18,7 @@
     <ClCompile Include="f1.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="f2.cpp">
+    <ClCompile Include="f1_f2.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
