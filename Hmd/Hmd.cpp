@@ -28,9 +28,10 @@ public:
 	void fillObject() {
 		string InputString;
 		cin >> InputString;
-
-		StringOfSymbols.push_back(InputString);
-		StringOfSymbols.sort();
+		if (InputString != "") {
+			StringOfSymbols.push_back(InputString);
+			StringOfSymbols.sort();
+		}
 	};
 
 	void write(ostream& fout) {
@@ -44,9 +45,9 @@ public:
 
 	bool read(istream& fin) {
 		//clear list, then read information from file into it
-		if (StringOfSymbols.size() > 0) {
+		/*if (StringOfSymbols.size() > 0) {
 			StringOfSymbols.clear();
-		}
+		}*/
 
 		unsigned int size = 0;
 
@@ -55,19 +56,21 @@ public:
 			string buffer;
 			buffer.resize(size);
 			fin.read(&buffer[0], buffer.size());
-
-			StringOfSymbols.push_back(buffer);
+			print(buffer);
+			//StringOfSymbols.push_back(buffer);
 		}
 
 		return (bool)fin;
 	};
 
-	void print() {
-		cout << "File contains:" << endl;
-		list <string> ::iterator it;
+	void print(string buffer) {
+
+		cout << buffer << endl;
+
+		/*list <string> ::iterator it;
 		for (it = StringOfSymbols.begin(); it != StringOfSymbols.end(); ++it) {
 			cout << *it << endl;
-		}
+		}*/
 	};
 
 	list<string> getList() {
@@ -95,85 +98,17 @@ void WriteReadFile() {
 	fileParser0.write(fout1);
 	fout1.close();
 
+	cout << "File contains:" << endl;
 	//read and print strings from file
 	fin1.open(fileName, ios::binary);
 	fileParser0.read(fin1);
-	fileParser0.print();
 	fin1.close();
-}
-
-void ProcessExistingFiles() {
-	ifstream fin1;
-	ifstream fin2;
-	ifstream fin3;
-	ofstream fout3;
-	string fileName[2];
-
-	FileParser fileParserFile1;
-	FileParser fileParserFile2;
-	FileParser fileParserFile3;
-
-	list<string> combinedList;
-	list<string> list1;
-	list<string> list2;
-
-	cout << "Input both file names (Example: f1.bin):" << endl;
-	for (int i = 0; i < 2; i++) {
-		cin >> fileName[i];
-	}
-
-	//read the first file into a list
-	fin1.open(fileName[0], ios::binary);
-	fileParserFile1.read(fin1);
-	list1 = fileParserFile1.getList();
-	fin1.close();
-
-	//read the second file into a list
-	fin2.open(fileName[1], ios::binary);
-	fileParserFile2.read(fin2);
-	list2 = fileParserFile2.getList();
-	fin2.close();
-
-	//merge both lists together
-	list <string> ::iterator it;
-	for (it = list2.begin(); it != list2.end(); ++it) {
-		list1.push_back(*it);
-	}
-
-	//sort the list and delete duplicates
-	list1.sort();
-	list1.unique();
-
-
-	//write the list into a new file
-	fileParserFile3.fillObjectForMergedFiles(list1);
-	fout3.open("f3.bin", ios::binary);
-	fileParserFile3.write(fout3);
-	fout3.close();
-
-
-	fin3.open("f3.bin", ios::binary);
-	fileParserFile3.read(fin3);
-	fileParserFile3.print();
-	fin3.close();
 }
 
 int main()
-{
-	int userChoice;
-
-	cout << "Press 1 to create new input files or press 2 to process existing input files" << endl;
-	cin >> userChoice;
-
-	switch (userChoice) {
-	case 1:
-		WriteReadFile();
-		break;
-	case 2:
-		ProcessExistingFiles();
-		break;
-	}
-};
+{	
+WriteReadFile();		
+}
 
 
 /*
